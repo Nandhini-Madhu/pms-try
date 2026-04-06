@@ -2,9 +2,12 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const mongoUri =
-      process.env.MONGO_URI ||
-      'mongodb://127.0.0.1:27017/project-management';
+    const mongoUri = process.env.MONGO_URI;
+
+    if (!mongoUri) {
+      console.error("MONGO_URI not found!");
+      process.exit(1);
+    }
 
     const conn = await mongoose.connect(mongoUri);
     console.log(`MongoDB connected: ${conn.connection.host}`);
